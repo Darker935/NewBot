@@ -13,3 +13,5 @@ class PingCommand implements Command {
         return new Set<string>(["pong","runtime"]);
     }
 }
+
+export default PingCommand;

@@ -42,3 +42,4 @@ const clients = {
         }
     }
 }
+module.exports.clients = clients;
