@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
-    "start": "tsc && node ./dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only ./index.ts",
+    "start": "tsc && node ./index.js",
     "pm2": "tsc && pm2 start pm2.config.js && pm2 save"
   },
   "repository": {
@@ -26,5 +26,6 @@
     "pino": "^8.1.0",
     "ts-node-dev": "^2.0.0",
     "tsc": "^2.0.4"
-  }
+  },
+  "type": "module"
 }

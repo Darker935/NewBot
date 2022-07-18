@@ -1,4 +1,4 @@
-import { MessageUpsertType, proto } from "@adiwajshing/baileys";
+import { proto } from "@adiwajshing/baileys";
 import CommandManager from "../Main/CommandManager";
 
 class BaileysListener {
@@ -8,7 +8,7 @@ class BaileysListener {
         client.ev.on("messages.upsert", m => this.onMessage(m));
     }
 
-    public onMessage(message: {messages: proto.IWebMessageInfo[], type: MessageUpsertType}) : void {
+    public onMessage(message: {messages: proto.IWebMessageInfo[], type: any}) : void {
         let commandManager: CommandManager = new CommandManager().getInstance();
         let info = message.messages[0];
         let type = this.getType(info.message);
