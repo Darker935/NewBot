@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import P from "pino";
 
+import BaileysListener from "../Listeners/BaileysListener";
+
 import makeWASocket from "@adiwajshing/baileys";
 import { Boom } from '@hapi/boom'
 import {
@@ -13,8 +15,9 @@ import {
 } from "@adiwajshing/baileys";
 
 const { state, saveCreds } = await useMultiFileAuthState('sessions')
-const clients = {
-    baileys: function(){
+
+class Launcher {
+    public baileys(){
         const client = makeWASocket({
             printQRInTerminal: true,
             browser: ['QUISHOT MD Baileys', "Safari", "3.0"],
@@ -40,6 +43,10 @@ const clients = {
             client.ev.on('creds.update', () => saveCreds);
             return client;
         }
+        connect().then(client => {
+            let baileysListener = new BaileysListener();
+            baileysListener.startListeners(client);
+        })
     }
 }
-module.exports.clients = clients;
+export default Launcher;
