@@ -1,0 +1,30 @@
+{
+  "name": "multibotv2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
+    "start": "tsc && node ./dist/index.js",
+    "pm2": "tsc && pm2 start pm2.config.js && pm2 save"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoseHM8A/multibotv2.git"
+  },
+  "keywords": [
+    "multibot"
+  ],
+  "author": "Darker? аутист",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoseHM8A/multibotv2/issues"
+  },
+  "homepage": "https://github.com/JoseHM8A/multibotv2#readme",
+  "devDependencies": {
+    "@adiwajshing/baileys": "github:adiwajshing/baileys",
+    "pino": "^8.1.0",
+    "ts-node-dev": "^2.0.0",
+    "tsc": "^2.0.4"
+  }
+}
