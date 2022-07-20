@@ -21,11 +21,5 @@
     "url": "https://github.com/JoseHM8A/multibotv2/issues"
   },
   "homepage": "https://github.com/JoseHM8A/multibotv2#readme",
-  "devDependencies": {
-    "@adiwajshing/baileys": "github:adiwajshing/baileys",
-    "pino": "^8.1.0",
-    "ts-node-dev": "^2.0.0",
-    "tsc": "^2.0.4"
-  },
   "type": "module"
 }
