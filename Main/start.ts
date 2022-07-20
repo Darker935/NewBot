@@ -16,7 +16,7 @@ import {
 
 const { state, saveCreds } = await useMultiFileAuthState('sessions')
 
-class Launcher {
+export class Launcher {
     public baileys(){
         const client = makeWASocket({
             printQRInTerminal: true,
@@ -49,4 +49,3 @@ class Launcher {
         })
     }
 }
-export default Launcher;

@@ -1,11 +1,13 @@
-import { Command } from "../Commands/Command";
+import Command from "../Commands/Command";
 
-export default class CommandManager {
+export class CommandManager {
+
     commands: Set<Command>;
-    instance: CommandManager = new CommandManager();
+    instance: CommandManager;
 
     constructor() {
         this.commands = new Set<Command>();
+        this.instance = new CommandManager();
     };
     public addCommand(command: Command) : void {
         this.commands.add(command);

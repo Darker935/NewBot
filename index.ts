@@ -1,16 +1,15 @@
-import CommandManager from "./Main/CommandManager"
+import {CommandManager} from "./Main/CommandManager"
 import * as allCommands from "./Commands/index";
-import Launcher from "./Main/start"
+import {Launcher} from "./Main/start"
 
-function addCommands(manager: CommandManager){
-    manager.addCommand(new allCommands.PingCommand());
-}
+(async()=>{
 
-function start() {
+    function addCommands(manager: CommandManager){
+        manager.addCommand(new allCommands.PingCommand());
+    }
+
     var commandManager: CommandManager = new CommandManager().getInstance();
     addCommands(commandManager);
     new Launcher().baileys();
-}
-
-start();
+})()
 
