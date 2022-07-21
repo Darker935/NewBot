@@ -1,23 +1,17 @@
-import * as fs from "fs";
 import P from "pino";
-
 import BaileysListener from "../Listeners/BaileysListener";
-
 import makeWASocket from "@adiwajshing/baileys";
 import { Boom } from '@hapi/boom'
 import {
-    BinaryNode,
-    useSingleFileLegacyAuthState,
     DisconnectReason,
-    WAProto,
-    BufferJSON,
     useMultiFileAuthState
 } from "@adiwajshing/baileys";
 
-const { state, saveCreds } = await useMultiFileAuthState('sessions')
 
 export class Launcher {
-    public baileys(){
+    public async baileys(){
+        const { state, saveCreds } = await useMultiFileAuthState('sessions')
+
         const client = makeWASocket({
             printQRInTerminal: true,
             browser: ['QUISHOT MD Baileys', "Safari", "3.0"],

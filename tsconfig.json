@@ -1,13 +1,16 @@
 {
     "compilerOptions": {
-      "module": "esnext",
-      "moduleResolution": "node",
-      "outDir": "./",
-      "allowSyntheticDefaultImports": true,
+      "target": "es2022",
+      "lib": ["ES6","DOM"],
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "module": "commonjs",
       "rootDir": "./",
-      "types":["node","ws","long"],
-      "target": "es2017",
-      "baseUrl": "./",
+      "outDir": "./dist",
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": false,
+      "skipDefaultLibCheck": true,
       "skipLibCheck": true,
     },
     "exclude": [

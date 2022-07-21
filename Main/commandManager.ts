@@ -2,12 +2,12 @@ import Command from "../Commands/Command";
 
 export class CommandManager {
 
-    commands: Set<Command>;
-    instance: CommandManager;
+    commands: Set<Command> = null;
+    instance: CommandManager = null;
 
     constructor() {
-        this.commands = new Set<Command>();
-        this.instance = new CommandManager();
+        if (!this.commands) this.commands = new Set<Command>();
+        if (!this.instance) this.instance = this;
     };
     public addCommand(command: Command) : void {
         this.commands.add(command);
