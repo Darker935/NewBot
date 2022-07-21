@@ -1,4 +1,4 @@
-import Command from "../Commands/Command";
+import Command from "../commands/Command";
 
 export class CommandManager {
 
@@ -8,24 +8,21 @@ export class CommandManager {
     constructor() {
         if (!this.commands) this.commands = new Set<Command>();
         if (!this.instance) this.instance = this;
-        console.log("Constructor CManager: "+this.commands)
     };
     public addCommand(command: Command) : void {
-        console.log("Command no Add Command: "+JSON.stringify(command,null,"\t"))
         this.commands.add(command);
     };
     public findCommand(name: String) : Command | undefined | null {
         name = name.slice(1);
         console.log("Comando para busca: "+name)
-        console.log("Todos comandos: "+JSON.stringify(this.commands,null,"\t"))
-        this.commands.forEach(command => {
-            console.log("Comando: "+command.command)
-            console.log("Alias: "+command.alias)
+        console.log("Todos comandos: ")
+        console.log(this.commands)
+        for (let command of this.commands.values()){
             if (command.command() == name.toLowerCase() || command.alias().has(name.toLowerCase())) {
-                console.log("Inclue")
+                console.log("Comando encontrado! ",command.command())
                 return command;
             }
-        })
+        }
         return null;
     };
     public getCommands(): Set<String> {
