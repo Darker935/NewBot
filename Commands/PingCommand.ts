@@ -1,10 +1,14 @@
-import {Command} from './Command';
+import Command from './Command';
 import IWebMessageInfo from "@adiwajshing/baileys"
 
 class PingCommand implements Command {
 
-    public onCommand(api: any, message: typeof IWebMessageInfo):void {
-
+    constructor(){
+        return this;
+    }
+    //@ts-ignore
+    public onCommand(api: any, message: IWebMessageInfo):void {
+        api.sendMessage(message.message.key.remoteJid,{text: "Ola, rodando em TS"})
     }
     public command(): String {
         return "ping";

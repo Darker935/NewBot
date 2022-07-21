@@ -10,6 +10,7 @@ import {Launcher} from "./Main/start"
 
     var commandManager: CommandManager = new CommandManager().getInstance();
     addCommands(commandManager);
-    new Launcher().baileys();
+    var launcher = await new Launcher();
+    launcher.baileys();
 })()
 

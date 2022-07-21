@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/JoseHM8A/multibotv2#readme",
   "devDependencies": {
-    "@adiwajshing/baileys": "github:adiwajshing/baileys"
+    "@adiwajshing/baileys": "github:adiwajshing/baileys",
+    "qrcode-terminal": "^0.12.0"
   }
 }
