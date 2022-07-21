@@ -1,5 +1,6 @@
 import Command from '../commands/Command';
 import IWebMessageInfo from "@adiwajshing/baileys"
+import { MessageInfo } from '../main/Utils';
 
 class PingCommand implements Command {
 
@@ -7,10 +8,9 @@ class PingCommand implements Command {
         return this;
     }
     //@ts-ignore
-    public onCommand(api: any, message: IWebMessageInfo):void {
-        console.log("Ping certinho KKKK")
-        console.log(message.key)
-        api.sendMessage(message.key.remoteJid,{text: "Ola, rodando em TS"})
+    public onCommand(api: any, message: MessageInfo):void {
+        console.log(message)
+        api.sendMessage(message.message.key.remoteJid,{text: JSON.stringify(message,null,"\t")})
     }
     public command(): String {
         return "ping";

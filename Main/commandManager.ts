@@ -13,13 +13,8 @@ export class CommandManager {
         this.commands.add(command);
     };
     public findCommand(name: String) : Command | undefined | null {
-        name = name.slice(1);
-        console.log("Comando para busca: "+name)
-        console.log("Todos comandos: ")
-        console.log(this.commands)
         for (let command of this.commands.values()){
             if (command.command() == name.toLowerCase() || command.alias().has(name.toLowerCase())) {
-                console.log("Comando encontrado! ",command.command())
                 return command;
             }
         }
