@@ -1,20 +1,26 @@
 import { proto } from "@adiwajshing/baileys";
-import {CommandManager} from "../Main/CommandManager";
+import Command from "../commands/Command";
+import {CommandManager} from "../main/CommandManager";
+import { Test } from "../main/Utils";
 
 class BaileysListener {
 
+    cmd_cache: Test = {}
     commandManager: CommandManager;
 
-    public startListeners(client: any): void {
-        console.log("Starting listeners");
+    public startListeners(client: any, manager: CommandManager): void {
+        console.log("✅ Starting listeners");
+        this.commandManager = manager;
         client.ev.on("messages.upsert", m => this.onMessage(m,client));
+    }
+
+    public isCmd(str: string){
+        
     }
 
     public onMessage(message: {messages: proto.IWebMessageInfo[], type: any}, baileys: any) : void {
         try {
-            if (!this.commandManager) {
-                this.commandManager = new CommandManager().getInstance()
-            }
+            console.log(this.commandManager.commands)
             let info = message.messages[0];
             let type = this.getType(info.message);
             if (
@@ -28,8 +34,17 @@ class BaileysListener {
                 message: info
             }
             if (!msg.message.key.participant.includes("351919911")) return;
+
             console.log("Finding: ",msg.text)
-            this.commandManager.findCommand(msg.text)?.onCommand(baileys, msg.message);
+            if (this.cmd_cache[msg.text] === undefined) {
+                this.cmd_cache[msg.text] = this.commandManager.findCommand(msg.text)
+            }
+            console.log("Before: ",this.cmd_cache)
+            if (this.cmd_cache === null) {}
+            else {
+                this.cmd_cache[msg.text].onCommand(baileys, msg.message);
+            }
+            console.log("After: ",this.cmd_cache)
         }catch(e){
             console.log(e.message)
         }
