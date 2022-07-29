@@ -1,4 +1,4 @@
-import { proto } from "@adiwajshing/baileys";
+import { proto, WASocket } from "@adiwajshing/baileys";
 import Command from "../commands/Command";
 import {CommandManager} from "../main/CommandManager";
 import { Configs, MessageParts, CommandCache } from "../main/Utils";
@@ -17,11 +17,11 @@ class BaileysListener {
 
     public isCmd(str: string): boolean{
         if (!this.bot_config) this.bot_config = new Configs();
-
+        
         const isCmd = str && Boolean(
             this.bot_config.prefixes.includes(str.slice(0,1))
             && str.slice(1)
-        ) 
+        )
         return isCmd;
     }
 
@@ -34,7 +34,7 @@ class BaileysListener {
             case "arg":
                 let arg =  this.get(str,"command")
                 return arg 
-                ? str.split(arg)[1].trim()
+                ? str.slice(arg.length+1).trim()
                 : null
             case "args":
                 let args = this.get(str,"arg")
@@ -45,33 +45,48 @@ class BaileysListener {
         }
     }
 
-    public onMessage(message: {messages: proto.IWebMessageInfo[], type: any}, baileys: any) : void {
+    public onMessage(message: {messages: proto.IWebMessageInfo[], type: any}, baileys: WASocket) : void {
         try {
             let info = message.messages[0];
             let type = this.getType(info.message);
+
             if (
                 type == "protocolMessage"
                 || type == "senderKeyDistributionMessage"
                 || message?.messages[0]?.key?.remoteJid == "status@broadcast"
             ) return;
 
-            let full_text = info.message?.[type]?.caption || info.message?.[type]?.text || info.message?.conversation
+            let full_text = info.message?.[type]?.caption 
+            || info.message?.[type]?.text
+            || info.message?.[type]?.fileName
+            || info.message?.conversation
+            
+            let quotedMsg = info.message?.extendedTextMessage?.contextInfo?.quotedMessage
+
             let msg = {
-                full_text: full_text,
-                command: this.get(full_text,"command"),
-                args: this.get(full_text,"args"),
-                arg: this.get(full_text,"arg"),
+                text: {
+                    full_text: full_text,
+                    command: this.get(full_text,"command"),
+                    args: this.get(full_text,"args"),
+                    arg: this.get(full_text,"arg")
+                },
+                quotedMsg,
+                data: {
+                    from: info.key.remoteJid,
+                    author: info.key.participant ? info.key.participant : 
+                            info.key.fromMe ? baileys.user.id : info.key.remoteJid,
+                    isGroup: info.key.remoteJid.includes("@g.us")
+                },
                 message: info
             }
-            if (!msg.message.key.participant.includes("351919911")) return;
-
-            if (msg.command) {
-                if (this.cmd_cache[msg.command] === undefined) {
-                    this.cmd_cache[msg.command] = this.commandManager.findCommand(msg.command)
+            msg.text.command!=undefined ? console.log(`COMANDO EXECUTADO [ ${msg.text.command} ]`) : ""
+            if (msg.text.command) {
+                if (this.cmd_cache[msg.text.command] === undefined) {
+                    this.cmd_cache[msg.text.command] = this.commandManager.findCommand(msg.text.command)
                 }
     
                 if (this.cmd_cache === null) {}
-                else { this.cmd_cache[msg.command].onCommand(baileys, msg); }
+                else { this.cmd_cache[msg.text.command]?.onCommand(baileys, msg); }
             }
         }catch(e){
             console.log(e)

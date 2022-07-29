@@ -1,2 +1,4 @@
-export { default as PingCommand } from "../commands/PingCommand";
-export { default as HelloCommand } from "../commands/HelloCommand";
+export { default as PingCommand } from "./misc/PingCommand";
+export { default as HelloCommand } from "./misc/HelloCommand";
+export { default as EvalCommand } from "./misc/EvalCommand";
+export { default as MenuCommand } from "./misc/MenuCommand";

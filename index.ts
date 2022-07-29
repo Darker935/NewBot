@@ -1,6 +1,7 @@
 import {CommandManager} from "./main/CommandManager"
 import * as allCommands from "./commands/index";
-import {Launcher} from "./main/start"
+import {Launcher} from "./main/Start"
+
 
 (async()=>{
 
@@ -9,6 +10,8 @@ import {Launcher} from "./main/start"
     function addCommands(manager: CommandManager){
         manager.addCommand(new allCommands.PingCommand());
         manager.addCommand(new allCommands.HelloCommand());
+        manager.addCommand(new allCommands.EvalCommand());
+        manager.addCommand(new allCommands.MenuCommand());
         console.log("✅ " + manager.commands.size + " commands added")
     }
 
