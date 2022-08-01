@@ -12,6 +12,7 @@ import {Launcher} from "./main/Start"
         manager.addCommand(new allCommands.HelloCommand());
         manager.addCommand(new allCommands.EvalCommand());
         manager.addCommand(new allCommands.MenuCommand());
+        manager.addCommand(new allCommands.YoutubeCommand());
         console.log("✅ " + manager.commands.size + " commands added")
     }
 

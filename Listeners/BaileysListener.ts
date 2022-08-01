@@ -1,7 +1,8 @@
-import { proto, WASocket } from "@adiwajshing/baileys";
+import { Chat, ConnectionState, GroupMetadata, proto, WASocket } from "@adiwajshing/baileys";
 import Command from "../commands/Command";
+import MySQL from "../databases";
 import {CommandManager} from "../main/CommandManager";
-import { Configs, MessageParts, CommandCache } from "../main/Utils";
+import { Configs, MessageParts, CommandCache, GroupParticipantsUpdate } from "../main/Utils";
 
 class BaileysListener {
 
@@ -9,10 +10,53 @@ class BaileysListener {
     commandManager: CommandManager;
     bot_config: Configs;
 
-    public startListeners(client: any, manager: CommandManager): void {
+    public startListeners(client: WASocket, manager: CommandManager): void {
         console.log("✅ Starting listeners");
         this.commandManager = manager;
         client.ev.on("messages.upsert", m => this.onMessage(m,client));
+        client.ev.on("connection.update", m => this.registerChats(m,client));
+
+        client.ev.on("group-participants.update", m => this.updateChats(m,client));
+    }
+    
+    public registerChats(update: Partial<ConnectionState>,client: WASocket): void {
+        let values = [];
+        if (update?.connection == "open") {
+            MySQL.createDatabase();
+            client.groupFetchAllParticipating().then(groups => {
+                // filling values
+                Object.keys(groups).forEach(group => {
+                    let gp = groups[group];
+                    values.push([
+                        gp.id,
+                        gp.subject,
+                        gp.desc.toString(),
+                        gp.participants.map(p => p.id).join(","),
+                        gp.participants.filter(p => p.admin).map(p => p.id).join(",")
+                    ])
+                });
+                // inserting values
+                 MySQL.updateAll("chats", ["id", "name", "description", "participants", "admins"], values)
+            });
+        }
+       // MySQL.updateAll()
+    }
+
+    public async updateChats(update: GroupParticipantsUpdate, client: WASocket): Promise<void> {
+        console.log(update)
+        let gpMetadata = await MySQL.getGroupInfo(update.id)
+        console.log("Meta: ",gpMetadata)
+        if (update.action == "promote") {
+            client.sendMessage(update.id, {text: `${update.participants.join(",")} promovidos para adminstrador`})
+            let newAdmins = gpMetadata.admins.split(",").concat(update.participants)
+            console.log(newAdmins)
+            MySQL.insertRow("chats", ["id","admins"],[update.id, newAdmins.join(",")])
+        } else if (update.action == "remove") {
+            client.sendMessage(update.id, {text: `${update.participants.join(",")} removidos de adminstradores`})
+            let newAdmins =  gpMetadata.admins.split(",").filter(a => !update.participants.includes(a))
+            console.log(newAdmins)
+            MySQL.insertRow("chats", ["id","admins"],[update.id, newAdmins.join(",")])
+        }
     }
 
     public isCmd(str: string): boolean{

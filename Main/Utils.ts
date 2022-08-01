@@ -1,5 +1,5 @@
 import * as fs from "fs"
-import IWebMessageInfo, { downloadMediaMessage, proto, WAMessage } from "@adiwajshing/baileys"
+import IWebMessageInfo, { downloadMediaMessage, ParticipantAction, proto, WAMessage } from "@adiwajshing/baileys"
 import Command from "../commands/Command";
 
 export class CommandCache {
@@ -19,6 +19,12 @@ export class MessageInfo {
         author: string;
     };
     message: WAMessage
+}
+
+export class GroupParticipantsUpdate {
+    id: string;
+    participants: string[];
+    action: ParticipantAction;
 }
 
 export class Configs {

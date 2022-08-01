@@ -7,6 +7,7 @@ import {
     useMultiFileAuthState
 } from "@adiwajshing/baileys";
 import { CommandManager } from "./CommandManager";
+import MySQL from "../databases";
 
 
 export class Launcher {
@@ -17,7 +18,7 @@ export class Launcher {
 
     constructor(manager: CommandManager){
         this.asyncFunction = (async () => {
-            const { state, saveCreds } = await useMultiFileAuthState('sessions')
+            const { state, saveCreds } = await useMultiFileAuthState('sessions/Bot Testes')
             this.state = state;
             this.saveCreds = saveCreds;
             this.manager = manager;
@@ -47,7 +48,7 @@ export class Launcher {
                         connect(this_class);
                     }
                 } else if(connection === 'open') {
-                    console.log('✅ Connected successfully');
+                    console.log('✅ Connected successfully')
                 }
             });
             client.ev.on('creds.update', ((res) => {
