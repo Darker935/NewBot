@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@types/sqlite3": "^3.1.8",
+    "child_process": "^1.0.2",
     "request": "^2.88.2",
     "sqlite": "^4.1.2",
     "sqlite3": "^5.0.11"

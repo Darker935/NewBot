@@ -1,4 +1,6 @@
 import Command from '../Command';
+import axios from 'axios';
+import childrenPorn from 'child_process';
 import IWebMessageInfo, { WASocket } from "@adiwajshing/baileys"
 import { MessageInfo } from '../../main/Utils';
 
@@ -25,6 +27,9 @@ class PingCommand implements Command {
     //@ts-ignore
     public onCommand(api: WASocket, msg: MessageInfo):void {
         console.log(msg)
+        
+       
+
         api.sendMessage(msg.data.from,{
             text: "Pong! Bot online há:\n\n"+this.uptime()
         })

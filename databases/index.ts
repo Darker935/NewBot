@@ -43,7 +43,7 @@ export default class MySQL {
         participants: string;
         admins: string;
     }> | undefined {
-        let row = await (await db).get("SELECT * FROM chats WHERE id = ?",id);
+        let row = await (await db).get("SELECT id FROM chats WHERE id = ?",id);
         if (row) {
             return row;
         } else {
@@ -52,7 +52,6 @@ export default class MySQL {
     }
 
     static getObjectValues(columns: Array<string>, values: Array<string>) {
-        console.log("A")
         let valuesObject = {};
         columns.forEach((column,i) => {
             valuesObject[":"+column] = values[i];
@@ -61,22 +60,18 @@ export default class MySQL {
     }
 
     static getColumnsValues(columns: Array<string>) {
-        console.log("B")
         return "(" + columns.join(",") + ")";
     }
 
     static getColumnsVariables(columns: Array<string>) {
-        console.log("C")
         return "(" + columns.map(column => ":"+column).join(",") + ")";
     }
 
     static getColumnsUpdateVariables(columns: Array<string>) {
-        console.log("D")
         return columns.map(column => column + "=?").join(",");
     }
 
     public static async insertRow(table: string, columns: Array<string>, valuesN: Array<string>) {
-        console.log("E")
         if (valuesN.length != columns.length) throw "Erro: Número de colunas e valores não são iguais";
         if (columns.length == 0 || valuesN.length == 0) throw "Erro: É necessario informar no minimo 1 valor/coluna";
         if (columns[0] != "id") throw "Erro: A primeira coluna deve ser id";        
@@ -88,7 +83,6 @@ export default class MySQL {
         let columnsUpdateVariablesSql = this.getColumnsUpdateVariables(columns);
 
         if (row) {
-            console.log("true")
 
             let sql =
             "UPDATE "       + table+
@@ -97,8 +91,6 @@ export default class MySQL {
 
             (await db).run(sql,valuesN);
         } else {
-
-            console.log("false")
 
             let sql = 
             "INSERT INTO " + table +

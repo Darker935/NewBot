@@ -9,6 +9,7 @@ class EvalCommand implements Command {
     //@ts-ignore
     public onCommand(api: WASocket, msg: MessageInfo):void {
         //if (msg.message?.key?.participant != new Configs().config.owner+"@s.whatsapp.net") return;
+
         try {
             console.log(msg.text.arg)
             eval(`(async()=>{

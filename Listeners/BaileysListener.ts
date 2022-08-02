@@ -15,7 +15,6 @@ class BaileysListener {
         this.commandManager = manager;
         client.ev.on("messages.upsert", m => this.onMessage(m,client));
         client.ev.on("connection.update", m => this.registerChats(m,client));
-
         client.ev.on("group-participants.update", m => this.updateChats(m,client));
     }
     
