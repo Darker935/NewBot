@@ -43,7 +43,7 @@ export default class MySQL {
         participants: string;
         admins: string;
     }> | undefined {
-        let row = await (await db).get("SELECT id FROM chats WHERE id = ?",id);
+        let row = await (await db).get("SELECT * FROM chats WHERE id = ?",id);
         if (row) {
             return row;
         } else {
